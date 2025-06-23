@@ -1,0 +1,7 @@
+uvicorn app.main:app  to run the server in local.
+
+to create tables or upgrade or downgrade using alembic run these commands
+uv run alembic upgrade head or id or +1
+uv run alembic downgrade id
+uv run alembic current heads # to point to current head
+uv run 
