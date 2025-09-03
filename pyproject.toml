@@ -10,7 +10,6 @@ dependencies = [
     "sqlalchemy[asyncio]",
     "fastapi[all]==0.115.13",
     "asyncpg>=0.30.0",
-    "passlib[bcrypt]>=1.7.4",
     "pyjwt>=2.10.1",
     "pydantic-settings==2.9.1",
     "alembic>=1.16.2",
@@ -58,4 +57,14 @@ dependencies = [
     "uvicorn==0.34.3",
     "watchfiles==1.1.0",
     "websockets==15.0.1",
+    "passlib[bcrypt]==1.7.4",
+    "bcrypt==4.0.1",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

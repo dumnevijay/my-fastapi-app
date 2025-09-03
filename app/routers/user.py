@@ -2,6 +2,7 @@ from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 from .. import models, schemes, utils
 from ..database import get_session
+from sqlalchemy.exc import IntegrityError
 
 router = APIRouter(
     prefix="/users",
@@ -17,8 +18,12 @@ async def create_user(user: schemes.UserCreate, session: AsyncSession = Depends(
     
     new_user = models.User(**user.dict())
     session.add(new_user)
-    await session.commit()
-    await session.refresh(new_user)
+    try:
+        await session.commit()
+        await session.refresh(new_user)
+    except IntegrityError:
+        await session.rollback()
+        raise HTTPException(status_code=409, detail="Email already registered")
     return new_user
 
 @router.get("/{id}", response_model=schemes.UserOut)

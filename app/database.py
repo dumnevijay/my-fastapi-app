@@ -5,11 +5,13 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from typing import AsyncGenerator
 from sqlalchemy.orm import sessionmaker
 from .config import settings
+from sqlalchemy.ext.asyncio import create_async_engine
 # from sqlalchemy.ext.declarative import declarative_base
 # Base = declarative_base()
 DATABASE_URL = f"postgresql+asyncpg://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
 
-engine = AsyncEngine(create_engine(DATABASE_URL, echo=True, future=True))
+# engine = AsyncEngine(create_engine(DATABASE_URL, echo=True, future=True))
+engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 
 # Sync Database URL for Alembic (same database, different driver)
 SYNC_DATABASE_URL = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
